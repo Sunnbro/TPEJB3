@@ -17,29 +17,10 @@ class ServerThread extends Thread {
 	        this.port = port;
 	    }
 
-	    public void run() {
+	  /*  public void run() {
 	    	try {
 	    		
-	   		 ServerSocket s3 = new ServerSocket(port);
-	   		 while(true) {
-	   		 Socket conn = s3.accept();//accepter cnx du server I
-	   		    
-	   			ObjectInputStream inclass1 = new ObjectInputStream(conn.getInputStream());//pour recevoir de server
-	   			String Sx2 = (String)inclass1.readObject();
-	   			System.out.println("nom de serverI: "+Sx2);
-	   			ObjectInputStream in1 = new ObjectInputStream(conn.getInputStream());//pour recevoir de server
-	   			
-	   			String S = (String)in1.readObject();
-	   			System.out.println("Demande recu depuis"+Sx2+": "+S);
-	   		 String clientAddress = conn.getInetAddress().getHostAddress(); // Adresse IP du client
-             int clientPort = conn.getPort();
-             
-            // System.out.println("server's port:"+clientPort+"and adresse ip:" + clientAddress);
-             
-             
-             // ON AJOUTE LE SERVER A LA BASE DE DONNEES
-             this.Addserver(clientAddress, Sx2, clientPort);
-             
+	   		
              
              // ON EXECUTE LA REQUETE
 	   			this.loadDriver();
@@ -66,7 +47,7 @@ class ServerThread extends Thread {
 	   	  catch(Exception e)			  {System.out.println("Exception : "+e.toString());}
 	       
 	   	}
-	    
+	    */
 	    
 	    
 	  void loadDriver() throws ClassNotFoundException {

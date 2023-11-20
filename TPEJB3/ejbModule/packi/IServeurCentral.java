@@ -5,7 +5,11 @@ import jakarta.ejb.Remote;
 
 @Remote
 public interface IServeurCentral extends Remote {
-	 void StartComSrvs(int port) throws Exception;
+	
+	 int add(int a,int b) throws Exception;
 	 void addservices() throws Exception;
-	 void Addserver(String ip, String name, int port) throws SQLException;
+	 void Addserver(String id,String ip, String name, int port) throws SQLException ;
+	 String listServices(String msg) throws SQLException;
+	// void loadDriver() throws ClassNotFoundException;
+	 //void Addserver(String ip, String name, int port) throws SQLException;
 }
