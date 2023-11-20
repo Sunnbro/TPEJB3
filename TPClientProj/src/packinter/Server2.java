@@ -9,76 +9,73 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Properties;
+
+import javax.naming.InitialContext;
+
+import packi.IServeurCentral;
+import packi.ServeurCentral;
 @SuppressWarnings("unused")
  
 public class Server2 {
 	public static void main(String[] args) {
 		Server2 inst = new Server2();
 	      try {
-	    	  //connexion au server central
-	    	
-	  		
-	    	  
+	    	  Properties props = new Properties();
+				 props.put("java.naming.factory.url.pkgs","org.jboss.ejb.client.naming");
+				 InitialContext context = new InitialContext(props);
+				 String Appname = "";
+				 String moduleName ="TPEJB3";
+				 String distinctName = "";
+			 	 String BeanName = ServeurCentral.class.getSimpleName();
+			 	 String InterfaceName = IServeurCentral.class.getName();
+				 
+				 String name = "ejb:"+ Appname + "/" + moduleName +"/"+ distinctName +"/"+ BeanName +"/"+ InterfaceName+"///";
+				System.out.println(name);
+				// Iinter i = (Iinter) context.lookup("ejb:/TPEJB3/inter!packi.Iinter");
+	        	 IServeurCentral i = (IServeurCentral) context.lookup("ejb:/TPEJB3/ServeurCentral!packi.IServeurCentral");
+	        	i.addservices();
+	      
 			//connexion a inter: accepted		
 			 ServerSocket s2 = new ServerSocket(2002);
 			 while(true) {
-				 Socket s1 = new Socket("localhost",2007); 
-			  		System.out.println("\n connecte au server Central \n");
+				
 			 Socket conn = s2.accept();
-			 	
+			 // prendre les infos 
+			 // nom du server
+			 String Sx = inst.getClass().getSimpleName();
+			 // Adresse IP du client
+			 String clientAddress = conn.getInetAddress().getHostAddress(); 
+			 // Numero du port
+             int clientPort = conn.getPort();	
+             
+             //envoyer nom server a central pour enregistrement.
+           //APPELER AVEC RMI	
+            i.Addserver("2",clientAddress, Sx, clientPort);
+             
+             
 			 	ObjectInputStream in1 = new ObjectInputStream(conn.getInputStream());//pour recevoir de inter
-			//ObjectOutputStream out1 = new ObjectOutputStream(conn.getOutputStream());// pour renvoyer a inter le resultat
-				String S = (String)in1.readObject();
+			 	String S = (String)in1.readObject();
 				System.out.println("message recu de inter: "+S);
 				
-			//envoyer nom server a central pour enregistrement.
-				ObjectOutputStream outsrv = new ObjectOutputStream(s1.getOutputStream());
-			 	outsrv.writeObject(inst.getClass().getSimpleName());
-			 	outsrv.flush();
-			 	
-			//on doit envoyer le nom du service recu depuis inter a serv central
-				ObjectOutputStream outsrv2 = new ObjectOutputStream(s1.getOutputStream());
-			 	outsrv2.writeObject(S);
-			 	outsrv2.flush();
+	
 				
-			//on doit lire resultat de serv central	
-			 ObjectInputStream insrv = new ObjectInputStream(s1.getInputStream());//pour recevoir de srv central
-				
-			 	
-			      String sq = (String)insrv.readObject();//lire a partir du server central
-			      System.out.println("result recu de Server central: "+sq);
-			      // System.out.println("Resultat :" +sq);
-			     
-				//
+	   		      String sq = i.listServices(S);
+				System.out.println("result recu de Server central: "+sq);
+	
 				ObjectOutputStream out1 = new ObjectOutputStream(conn.getOutputStream());// pour renvoyer a inter le resultat
 				 out1.writeObject(sq);
 	             out1.flush();
-	             outsrv.close();
-	             outsrv2.close();
-	             insrv.close();
+	          
 	             out1.close();
 	             in1.close(); 
 				conn.close(); 
-				s1.close();
 				
 				if("FIN".equals(S)) break;
 		            } 
-			 
 		            s2.close();
-		            
-		            
-		            
-		      
-		            
-		            
-		 }
+			 }
 		  catch(Exception e)			  {System.out.println("Exception : "+e.toString());}
 	     
-	     
 }
-	
-
-    
-
-
-}
+	}

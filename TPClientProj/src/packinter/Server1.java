@@ -21,32 +21,21 @@ public class Server1 {
 	public static void main(String[] args) {
 		Server1 inst = new Server1();
 	      try {
-	    	  
 	    	  Properties props = new Properties();
-				 
 				 props.put("java.naming.factory.url.pkgs","org.jboss.ejb.client.naming");
-				 //props.put("jboss.naming.client.ejb.context",true);
 				 InitialContext context = new InitialContext(props);
-
-				 
 				 String Appname = "";
 				 String moduleName ="TPEJB3";
 				 String distinctName = "";
-				String BeanName = ServeurCentral.class.getSimpleName();
-				String InterfaceName = IServeurCentral.class.getName();
+			 	 String BeanName = ServeurCentral.class.getSimpleName();
+			 	 String InterfaceName = IServeurCentral.class.getName();
 				 
 				 String name = "ejb:"+ Appname + "/" + moduleName +"/"+ distinctName +"/"+ BeanName +"/"+ InterfaceName+"///";
 				System.out.println(name);
 				// Iinter i = (Iinter) context.lookup("ejb:/TPEJB3/inter!packi.Iinter");
 	        	 IServeurCentral i = (IServeurCentral) context.lookup("ejb:/TPEJB3/ServeurCentral!packi.IServeurCentral");
 	        	i.addservices();
-	        	
-	             
-	        	 //System.out.println("X2 = "+ x2);
-	    	  //connexion au server central
-	    	
-	  		
-	    
+	      
 			//connexion a inter: accepted		
 			 ServerSocket s2 = new ServerSocket(2001);
 			 while(true) {
@@ -66,25 +55,14 @@ public class Server1 {
              
              
 			 	ObjectInputStream in1 = new ObjectInputStream(conn.getInputStream());//pour recevoir de inter
-			//ObjectOutputStream out1 = new ObjectOutputStream(conn.getOutputStream());// pour renvoyer a inter le resultat
-				String S = (String)in1.readObject();
+			 	String S = (String)in1.readObject();
 				System.out.println("message recu de inter: "+S);
 				
-					 	
-			//on doit envoyer le nom du service recu depuis inter a serv central
-//AJOUTER LES SERVICES ?		
+	
 				
-			//on doit lire resultat de serv central	
-//DEMANDER QUERY DU SERVER CENTRAL EntityManager	
-				
-				
-				//i.loadDriver();
 	   		      String sq = i.listServices(S);
-	   		  // String sq= "";
 				System.out.println("result recu de Server central: "+sq);
-			      // System.out.println("Resultat :" +sq);
-			     
-				//
+	
 				ObjectOutputStream out1 = new ObjectOutputStream(conn.getOutputStream());// pour renvoyer a inter le resultat
 				 out1.writeObject(sq);
 	             out1.flush();
@@ -95,22 +73,9 @@ public class Server1 {
 				
 				if("FIN".equals(S)) break;
 		            } 
-			 
 		            s2.close();
-		            
-		            
-		            
-		      
-		            
-		            
-		 }
+			 }
 		  catch(Exception e)			  {System.out.println("Exception : "+e.toString());}
 	     
-	     
 }
-	
-
-    
-
-
-}
+	}
