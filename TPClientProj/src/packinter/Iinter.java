@@ -1,8 +1,8 @@
-package packi;
-import jakarta.ejb.Remote;
+package packinter;
 
-@Remote
-public interface Iinter extends Remote {
+import java.rmi.Remote;
+
+public interface Iinter extends Remote{
 	int add(int a,int b) throws Exception;
 	 String Sending(String s) throws Exception;
 }

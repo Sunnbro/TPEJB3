@@ -1,4 +1,4 @@
-package packi;
+package packinter;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;

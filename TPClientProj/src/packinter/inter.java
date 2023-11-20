@@ -1,35 +1,23 @@
-package packi;
+package packinter;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.lang.annotation.Annotation;
 import java.net.Socket;
+import java.rmi.Remote;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.Scanner;
 
-import jakarta.annotation.PostConstruct;
 import jakarta.ejb.Stateful;
 import jakarta.ejb.Stateless;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
+
 @SuppressWarnings("unused")
 
-@Stateless
-public class inter implements Iinter {
+
+public class inter extends java.rmi.server.UnicastRemoteObject implements Iinter {
 	
-	@PostConstruct
-	void init() {
-	    try {inter p = new inter();
-	    
-	    addservices();
-	    }
-	    catch (Exception e) {e.printStackTrace();}
-	}
-	
-	@PersistenceContext
-	EntityManager EM;
-	
-	
-	public inter() throws Exception{}
+public inter() throws Exception{}
 	public int add(int a,int b) throws Exception{ return a+b;}
 	
 	public String Sending(String s) throws Exception {
@@ -71,25 +59,7 @@ public class inter implements Iinter {
 	}
 	return sa;	  
 	}
-	private void addservices() {
-		try {
-			Long count = (Long) EM.createQuery("SELECT COUNT(s) FROM TBService s WHERE s.number BETWEEN 0 AND 15")
-                    .getSingleResult();
-
-			if (count != 16) { 	for (int i = 0; i < 16; i++) {
-		            String id = String.valueOf(i);
-		            String prevId = String.valueOf(i);
-		            String libelle = "Service" + i;
-		            String description = "Description du Service" + i;
-		            TBService service = new TBService(id, prevId, libelle, description);
-		            EM.persist(service);}
-				}
-			
-			}
-		catch(Exception e) 
-		{System.out.println("Exception : "+e.toString());
-		}
-	}
+	
 	
 	
 	private String sendViaTCPtoserver1(String message) {
@@ -236,21 +206,12 @@ public class inter implements Iinter {
 		return null;}
 		
 		}
-	/*
+	
 	public static void main (String[] args) throws Exception{
 	    inter p = new inter();
-	    //Registry r = LocateRegistry.createRegistry(1099);
-	    //r.rebind("refinter", p);
-	}*/
-	@Override
-	public Class[] value() {
-		// TODO Auto-generated method stub
-		return null;
+	    Registry r = LocateRegistry.createRegistry(1099);
+	    r.rebind("refinter", p);
 	}
-	@Override
-	public Class<? extends Annotation> annotationType() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
 }
