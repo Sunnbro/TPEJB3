@@ -1,0 +1,180 @@
+Zidane
+{
+VAR{
+ FLOAT A,B,Bb,Bc;
+INTEGER X,ssr,Y,Zsa;
+
+ INTEGER Zi,Z2,In,Ij;
+ INTEGER N;
+ INTEGER Ki,Jj,Ss;
+ INTEGER Nsa;
+ FLOAT N;
+FLOAT Xrs,Flti;
+ CONST Ri = 2000;
+ CONST Ra = 2.5;
+  
+%% INTEGER No 
+INTEGER Nom [5];
+FLOAT Tabr [2];
+INTEGER Srsq[3];
+
+
+STRUCT {
+INTEGER brs;
+FLOAT Strne;
+} Nomstr ;
+
+STRUCT Nomstr Nri, Nrw;
+
+}
+
+%% ceci est un commentaire
+
+CODE{
+%% Zi= N;
+%% X= A ;
+%% Nom[1]=5;
+
+Nom[5]=51;
+Tabr[1]=2.5;
+N = Zi;
+Ki=Y-Y;
+
+Ki=2+0;
+Ss=2;
+Jj=33;
+Zi=2*2;
+Y=Zi+1;
+Flti=Tabr[2];
+Y=Nom[3];
+X = 2 +1 ;
+Y = X + 3;
+Y =1;
+
+%% Z = Y * X;
+
+Y=(((-2)+4)+1)*(4-10)-3/0;
+
+
+IF (Zi>=In){
+In=55;
+Y=2.5;
+}
+ELSE{
+Y=1.1;
+Y=2.2;
+Y=3.3;
+}
+A=A+1;
+A=A+1;
+A=A+1;
+IF (X>Zi){
+
+IF (Y<=Zi){
+
+
+
+Y=4.4;
+X=5;
+Y=6.6;
+}
+ELSE{
+Y=7.7;
+Y=8.8;
+}
+
+Y=9.9;
+X=10;
+Y=11.11;
+}
+ELSE{
+Y=12.2;
+Y=13.3;
+}
+
+
+FOR (In : 0: 2 :N) {
+In=In+66;
+
+FOR (Ij : 1: 5 :N) {
+Ij=Ij+1;
+
+WHILE(A>= 12){
+A=A+2.5;
+Z2 = (+4) ;
+X=3;
+
+
+WHILE((Z2+1)>= 12){
+Bb=Bb+2.5;
+Z2 = (+4) ;
+X=6;
+
+}
+
+X=667;
+
+}
+}
+
+}
+
+Nri.brs = 31;
+%% Nrw.brs = 2;
+B= Nrw.Strne + 2.5;
+
+
+
+
+    FOR (In : 0 : 2 : Nsa) {
+    X=1;
+    In=In+2;
+
+        FOR (Ij : 2 : 4 : Nsa) {
+        X=3;
+        Ij=Ij+2;
+
+
+            IF (Y<=Zi){
+
+              Y=4.4;
+              X=5;
+
+            
+                WHILE((Z2+1)>= 12){
+                Bb=Bb+2.5;
+                Z2 = (+4) ;
+                X=6;
+
+                            }
+              Y=6.6;
+            }
+
+            ELSE{
+            Y=7.7;
+            Y=8.8;
+            }
+
+
+            }
+
+
+    }
+
+WHILE((Z2+1)&&(Zi)){
+                Bb=Bb+2.5;
+                X=1;
+                X=1;
+                X=1;
+                X=1;
+}
+
+WHILE((X+1)&&(Y+2)){
+  IF(!(X)){}
+  ELSE{}
+X=1;
+}
+
+
+}
+}

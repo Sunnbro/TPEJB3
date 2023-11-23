@@ -14,7 +14,7 @@ import java.net.SocketTimeoutException;
 import java.rmi.registry.LocateRegistry;
 @SuppressWarnings("unused")
 public class Cl1 {
-	public static int[] values = {9876, 1587, 6958, 5719 };
+	public static int[] values = {1122, 2233, 3344 ,4455, 5511};
 	public static void main(String[] args) throws Exception{
         try {
         	 String[] clientReferenceChain = {"Service1","Service0","Service4","Service12","Service11","Service10","Service9","Service8","Service7","Service6","Service5","Service4","Service3","Service2","Service1","Service0","FIN"};
@@ -43,16 +43,16 @@ public class Cl1 {
         	 DatagramSocket socket = new DatagramSocket();
              String message = "Token";
              InetAddress address = InetAddress.getLocalHost(); 
-             int port = 9876; // Numéro de port pour le prochain client
+             int port = 1122; // Numéro de port pour le prochain client
             
              DatagramPacket packet = new DatagramPacket(message.getBytes(), message.length(), address, port);
-           // if(!nomService.equals("Service4")&& x==0){
+            if(!nomService.equals("Service4")&& x==0){
              socket.send(packet); 
-             //if(nomService.equals("Service4")) x=1;}
+             if(nomService.equals("Service4")) x=1;}
              System.out.println("Token envoyé depuis Client 1 au Client 2");
              //thread.sleep(3000);
              //RECEPTION
-             DatagramSocket sk2 = new DatagramSocket(2541);
+             DatagramSocket sk2 = new DatagramSocket(5511);
              socket.setSoTimeout(30000);
  			byte[] buffer = new byte[1024];
              DatagramPacket receivedPacket = new DatagramPacket(buffer, buffer.length);
@@ -68,9 +68,9 @@ public class Cl1 {
                 	 System.out.println("Timer ran out, reallocation du random du token");
                      InetAddress address2 = packet.getAddress(); // Utiliser l'adresse d'origine
                      String message2 = "Token";
-                     int nouvPort = reallocateToken();
-                     DatagramPacket packet2 = new DatagramPacket(message2.getBytes(), message2.length(), address2, nouvPort);
-                     socket3.send(packet2);
+                     RellocateToken(address2);
+                   //  DatagramPacket packet2 = new DatagramPacket(message2.getBytes(), message2.length(), address2, nouvPort);
+                   //  socket3.send(packet2);
                  }
              }
         	 
@@ -84,40 +84,43 @@ public class Cl1 {
         catch(Exception e) 
     	{System.out.println("Exception : "+e.toString());}
 	
-}
-	public static int reallocateToken() {
-		  Random random = new Random();
-	        
+}private static void RellocateToken(InetAddress address) {
 
-	        // Génération d'un indice aléatoire pour sélectionner l'un des cinq entiers
-	        int randomIndex = random.nextInt(values.length);
+	 Random random = new Random();
+       
 
-	        // Récupération de l'entier sélectionné aléatoirement
-	        int selectedInt = values[randomIndex];
+       // Génération d'un indice aléatoire pour sélectionner l'un des cinq entiers
+       int randomIndex = random.nextInt(values.length);
 
-	        
-	        switch (selectedInt) {
-        	case 9876:		    
-        		System.out.println("Nouveau token crée et envoyé au Client 02.");
-        		break;
+       // Récupération de l'entier sélectionné aléatoirement
+       int selectedInt = values[randomIndex];
+
+       
+       switch (selectedInt) {
+       		
+       	case 5511:		    
+	    	System.out.println("Nouveau token crée et envoyé au Client 01.");
+	    		break;
+	    	
+       	case 1122:		    
+		    	System.out.println("Nouveau token crée et envoyé au Client 02.");
+		    	break;
 		    	
-		    case 1587:		    
+		    case 2233:
 		    	System.out.println("Nouveau token crée et envoyé au Client 03.");
 		    	break;
 		    	
-		    case 6958:
+		    case 3344:		    
 		    	System.out.println("Nouveau token crée et envoyé au Client 04.");
 		    	break;
 		    	
-		    case 5719:		    
+		    case 4455:
 		    	System.out.println("Nouveau token crée et envoyé au Client 05.");
 		    	break;
-		    	
-		   
-	        // Affichage de l'entier sélectionné
-	        }
-	        return selectedInt;
-		  	
-	        
-	}
+       // Affichage de l'entier sélectionné
+       }
+       
+	
+}
+	
 }
