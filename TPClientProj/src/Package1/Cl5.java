@@ -171,7 +171,7 @@ public class Cl5 {
 	           //}
 	       }
 	       
-	       String msg = "Token";
+	       String msg = "NVToken";
 	       
 	       switch (selectedInt) {
 	       		

@@ -187,17 +187,17 @@ public class Cl1 {
 	       String msgr = "Reset";
 	       
 	       for (int i = 0; i < values.length; i++) {
-	          // if (values[i] != 5511) {
+	           //if (values[i] != selectedInt) {
 	               // Envoyer le message "Reset" à tous les clients sauf celui sélectionné
 	               int port = values[i];
 	               DatagramPacket resetPacket = new DatagramPacket(msgr.getBytes(), msgr.length(), address, port);
 	               socketR.send(resetPacket);
 
 	               System.out.println("Message de reset envoyé au Client " + (i + 1));
-	           }
-	       //}
+	           //}
+	       }
 	       
-	       String msg = "Token";
+	       String msg = "NVToken";
 	       
 	       switch (selectedInt) {
 	       		

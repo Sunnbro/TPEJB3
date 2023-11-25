@@ -169,7 +169,7 @@ public class Cl4 {
 	           //}
 	       }
 	       
-	       String msg = "Token";
+	       String msg = "NVToken";
 	       
 	       switch (selectedInt) {
 	       		
