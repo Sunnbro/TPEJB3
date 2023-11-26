@@ -28,9 +28,15 @@ public class Cl5 extends Client{
         	 int x=0;
         	 int x2=0;
         	 //System.out.println("voici le resultat: x= "+ x);
-        	 outerloop:
+        	 //outerloop:
         	 for (String reference : clientReferenceChain) {
-        	 	 if(reference.equals("FIN")){System.out.println("Fin client5");}
+        		 if(reference.equals("FIN")){System.out.println("Fin client5");
+					removePort(4455);
+					int[] V = getValues();
+					 System.out.println("Les Ports restants sont : ");
+			        for (int value : values) {
+			            System.out.println(value);
+			        }}
         	 	 else {
         	 		System.out.println("============================================================");
         	 		System.out.println("============================================================");
@@ -123,13 +129,14 @@ public class Cl5 extends Client{
                  String message = "Token";
                  address = packet.getAddress(); // Utiliser l'adresse d'origine
                  int port = 5511; // Utiliser le port d'origine
-               /*  if(nomService.equals("Service13")){Thread.sleep(10000);}
-                     socket.send(packet); 
-                 */    
+                
                  
                  DatagramPacket packet2 = new DatagramPacket(message.getBytes(), message.length(), address, port);
                  socket2.send(packet2); // Envoi à l'adresse d'origine
+                // if(isPortAvailable(address, port)) {
                  System.out.println("Message envoyé depuis Client 5 au Client 1");
+                 //}
+                 //else {System.out.println("Client 1 n'est pas disponible");}
 
                  socket2.close();
                          			socket.close();

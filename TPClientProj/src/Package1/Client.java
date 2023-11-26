@@ -1,16 +1,33 @@
 package Package1;
 
+import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.Socket;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 public class Client {
 	
+	protected static int[] values = {1122, 2233, 3344, 4455, 5511};
+	 //AU LIEU D'ENVOYER AU PROCHAIN EXPLICITEMENT, ET PUISQUE on SUPPRIME QUAND un est termine, EN ENVOIE AU NEXT
+	  public static int[] getValues() {
+	        return values;
+	    }
+	
+	  public static void removePort(int portToRemove) {
+	        int[] updatedValues = Arrays.stream(values)
+	                                    .filter(port -> port != portToRemove)
+	                                    .toArray();
+	        values = updatedValues;
+	    }
+	
+		    
 	public static void RellocateToken(InetAddress address) {
 		try{
-			int[] values = {1122, 2233, 3344 ,4455, 5511};
-
+		
 		 Random random = new Random();
 	       
 
@@ -35,6 +52,11 @@ public class Client {
 	       }
 	       
 	       String msg = "NVToken";
+	       
+	      /* System.out.println("Nouveau token crée et envoyé au Client "+randomIndex+".");
+	    	DatagramPacket packet1 = new DatagramPacket(msg.getBytes(), msg.length(), address, selectedInt);
+			socketR.send(packet1); // Envoi du token à l'adresse d'origine
+	    	*/
 	       
 	       switch (selectedInt) {
 	       		

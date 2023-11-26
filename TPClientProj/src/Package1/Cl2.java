@@ -31,7 +31,13 @@ public class Cl2 extends Client{
         	 //creation d'un jump si reset
         	 //outerloop:
         	 for (String reference : clientReferenceChain) {
-        	 	 if(reference.equals("FIN")){System.out.println("Fin client2");}
+        	 	 if(reference.equals("FIN")){System.out.println("Fin client2");
+        	 	 							removePort(1122);
+        	 	 							int[] V = getValues();
+        	 	 							 System.out.println("Les Ports restants sont : ");
+        	 	 					        for (int value : values) {
+        	 	 					            System.out.println(value);
+        	 	 					        }}
         	 	 else {
         	 		System.out.println("============================================================");
         	 		System.out.println("============================================================");
@@ -127,7 +133,10 @@ public class Cl2 extends Client{
              */    
              
              DatagramPacket packet2 = new DatagramPacket(message.getBytes(), message.length(), address, port);
-             socket2.send(packet2); // Envoi à l'adresse d'origine
+             //if(!nomService.equals("Service13")){
+            	 socket2.send(packet2); // Envoi à l'adresse d'origine
+                 	 
+ 	 		 //}
              System.out.println("Message envoyé depuis Client 02 au Client 03");
 
              socket2.close();

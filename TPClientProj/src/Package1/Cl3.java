@@ -29,9 +29,15 @@ public class Cl3 extends Client{
         	 //System.out.println("voici le resultat: x= "+ x);
         	 
         	//creation d'un jump si reset
-        	 outerloop:
+        	 //outerloop:
         	 for (String reference : clientReferenceChain) {
-        	 	 if(reference.equals("FIN")){System.out.println("Fin client3");}
+        		 if(reference.equals("FIN")){System.out.println("Fin client3");
+					removePort(2233);
+					int[] V = getValues();
+					 System.out.println("Les Ports restants sont : ");
+			        for (int value : values) {
+			            System.out.println(value);
+			        }}
         	 	 else {
         	 		System.out.println("============================================================");
         	 		System.out.println("============================================================");

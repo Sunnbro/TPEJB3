@@ -49,18 +49,24 @@ public class Cl1 extends Client{
  	 		 int port = 1122; // Numéro de port pour le prochain client
  
  	 		 DatagramPacket packetf = new DatagramPacket(message.getBytes(), message.length(), address, port);
- 	 		 if(!nomService.equals("Service4")&& x==0){
+ 	 		 //if(!nomService.equals("Service4")){
  	 			 socketf.send(packetf); 
- 	 			 if(nomService.equals("Service4")) x=1;
- 	 		 }
+ 	 			 
+ 	 		 
  	 		 System.out.println("Token envoyé depuis Client 1 au Client 2");
 
         	 socketf.close();
         	 //MEME CODE QUE C2 DEPUIS ICIIIIIIII
  	 		 
- 	 		outerloop:
+ 	 		//outerloop:
  	 			for (int iz = 1; iz < clientReferenceChain.length; iz++) {
- 	        	 	 if(clientReferenceChain[iz].equals("FIN")){System.out.println("Fin client2");}
+ 	 				 if(clientReferenceChain[iz].equals("FIN")){System.out.println("Fin client1");
+						removePort(5511);
+						int[] V = getValues();
+						 System.out.println("Les Ports restants sont : ");
+				        for (int value : values) {
+				            System.out.println(value);
+				        }}
  	        	 	 else {
  	        	 		System.out.println("============================================================");
  	        	 		System.out.println("============================================================");

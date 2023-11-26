@@ -28,9 +28,15 @@ public class Cl4 extends Client{
         	 int x=0;
         	 int x2=0;
         	 //System.out.println("voici le resultat: x= "+ x);
-        	 outerloop:
+        	// outerloop:
         	 for (String reference : clientReferenceChain) {
-        	 	 if(reference.equals("FIN")){System.out.println("Fin client4");}
+        		 if(reference.equals("FIN")){System.out.println("Fin client4");
+					removePort(3344);
+					int[] V = getValues();
+					 System.out.println("Les Ports restants sont : ");
+			        for (int value : values) {
+			            System.out.println(value);
+			        }}
         	 	 else {
         	 		System.out.println("============================================================");
         	 		System.out.println("============================================================");
