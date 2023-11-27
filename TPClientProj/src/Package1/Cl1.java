@@ -1,5 +1,6 @@
 package Package1;
 import java.rmi.registry.Registry;
+import java.util.Arrays;
 import java.util.Properties;
 import java.util.Random;
 
@@ -14,6 +15,7 @@ import java.net.SocketTimeoutException;
 import java.rmi.registry.LocateRegistry;
 @SuppressWarnings("unused")
 public class Cl1 extends Client{
+	public static int[] values = {1122, 2233, 3344, 4455, 5511};
 	public static void main(String[] args) throws Exception{
         try {
         	 String[] clientReferenceChain = {"Service1","Service0","Service4","Service12","Service11","Service10","Service9","Service8","Service7","Service6","Service5","Service4","Service3","Service2","Service1","Service0","FIN"};
@@ -23,6 +25,7 @@ public class Cl1 extends Client{
         	 Iinter i = (Iinter) r.lookup("refinter");
         	 int x=0;
         	 int x2=0;
+        	 int current=1122;
         	 //int x = i.add(9, 12);
         	 //System.out.println("voici le resultat: x= "+ x);
         	 
@@ -46,9 +49,9 @@ public class Cl1 extends Client{
  	 		 DatagramSocket socketf = new DatagramSocket();
  	 		 String message = "Token";
  	 		 InetAddress address = InetAddress.getLocalHost(); 
- 	 		 int port = 1122; // Numéro de port pour le prochain client
+ 	 		 int port1 = 1122; // Numéro de port pour le prochain client
  
- 	 		 DatagramPacket packetf = new DatagramPacket(message.getBytes(), message.length(), address, port);
+ 	 		 DatagramPacket packetf = new DatagramPacket(message.getBytes(), message.length(), address, port1);
  	 		 //if(!nomService.equals("Service4")){
  	 			 socketf.send(packetf); 
  	 			 
@@ -61,12 +64,7 @@ public class Cl1 extends Client{
  	 		//outerloop:
  	 			for (int iz = 1; iz < clientReferenceChain.length; iz++) {
  	 				 if(clientReferenceChain[iz].equals("FIN")){System.out.println("Fin client1");
-						removePort(5511);
-						int[] V = getValues();
-						 System.out.println("Les Ports restants sont : ");
-				        for (int value : values) {
-				            System.out.println(value);
-				        }}
+						}
  	        	 	 else {
  	        	 		System.out.println("============================================================");
  	        	 		System.out.println("============================================================");
@@ -80,18 +78,36 @@ public class Cl1 extends Client{
  	                     
  	                     
  	                	 //reception token
- 	                	 boolean received2 = false;
+ 	                    boolean received2 = false;
  	                     while (!received2) {
  	                         try {socket.receive(packet); 
  	                        // String recumsg = new String(packet.getData(), 0, packet.getLength());
  	                         String receivedtest = new String(packet.getData(), 0, packet.getLength());
  	                        	if(receivedtest.equals("Reset")){
- 	                        		System.out.println("Reset du timer du client 1");
+ 	                        		System.out.println("Reset du timer du client 2");
  	                        		received2 = true; // Marque le datagramme comme reçu
  	                                x2=1;
- 	                        	}//socket.setSoTimeout(30000);}
+ 	                        	}
+ 	                        	else if(receivedtest.contains("Deleteport")) {
+ 	                        		 String[] partx = receivedtest.split("Deleteport");
+ 	                        		    if (partx.length > 1) {
+ 	                    			int[] updatedValues = Arrays.stream(values)
+ 		                                    .filter(port -> port != Integer.parseInt(partx[1]))
+ 		                                    .toArray();
+ 	                    			values = updatedValues;
+ 	                    			System.out.println("Les Ports restants sont : ");
+ 	 	 					        for (int value : values) {
+ 	 	 					            System.out.println(value);}
+ 	                    			received2 = true;
+ 	                    			x2=1;
+ 	                        		    }
+ 	                    		}
+ 	                    		
+ 	                        	
+ 	                        	//socket.setSoTimeout(40000);}
  	                        	else{
- 	                    			// Attente de la réception d'un datagramme token
+ 	                
+ 	                        		// Attente de la réception d'un datagramme token
  	                           		if(receivedtest.equals("NVToken")) {System.out.println("Nouveau Token Recu");}
  	                           		else { System.out.println("Token Recu depuis Client2");}
  	                    			
@@ -100,41 +116,57 @@ public class Cl1 extends Client{
  	                         } catch (SocketTimeoutException e) {
  	                        	 System.out.println("Timer ran out, reallocation random du token");
  	                        	// int nouvPort = reallocateToken();
- 	                        	 message = "Token";
- 	                        		RellocateToken(address);
+ 	                        	  message = "Token";
+ 	                        		RellocateToken(values,address);
  	                        		x2=1;
  	                			 }
  	                         
  	                         }
- 	                     
- 	                    while(x2==1) {
- 	                       socket.setSoTimeout(40000);
- 	                       received2 = false;
- 	                       while (!received2) {
- 	                           try {socket.receive(packet); 
- 	                          // String recumsg = new String(packet.getData(), 0, packet.getLength());
- 	                           String receivedtest = new String(packet.getData(), 0, packet.getLength());
- 	                           if(receivedtest.equals("Reset")){
- 	                       		System.out.println("Reset du timer du client 01");
- 	                       		received2 = true; // Marque le datagramme comme reçu
- 	                               
- 	                       	}
- 	                      			// Attente de la réception d'un datagramme token
- 	                           else{ 		if(receivedtest.equals("NVToken")) {System.out.println("Nouveau Token Recu");}
- 	                             		else { System.out.println("Token Recu depuis Client 05");}
- 	                      			x2=0;
- 	                      			received2 = true; // Marque le datagramme comme reçu
- 	                           }
- 	                           } catch (SocketTimeoutException e) {
- 	                          	 System.out.println("Timer ran out, reallocation random du token");
- 	                          	// int nouvPort = reallocateToken();
- 	                          	 message = "Token";
- 	                          		RellocateToken(address);
- 	                          		
- 	                  			 }
- 	                           
- 	                           }
- 	                       }
+ 	                     // peut etre avec while
+ 	                     while(x2==1) {
+ 	                     socket.setSoTimeout(40000);
+ 	                     received2 = false;
+ 	                     while (!received2) {
+ 	                         try {socket.receive(packet); 
+ 	                         	// String recumsg = new String(packet.getData(), 0, packet.getLength());
+ 	                         	String receivedtest = new String(packet.getData(), 0, packet.getLength());
+ 	                         			if(receivedtest.equals("Reset")){
+ 	                         			System.out.println("Reset du timer du client 02");
+ 	                         			received2 = true; // Marque le datagramme comme reçu
+ 	                             	}
+ 	                         			else         		if(receivedtest.contains("Deleteport")) {
+ 	                               		 String[] partx = receivedtest.split("Deleteport");
+ 	                         		    if (partx.length > 1) {
+ 	                     			int[] updatedValues = Arrays.stream(values)
+ 	 	                                    .filter(port -> port != Integer.parseInt(partx[1]))
+ 	 	                                    .toArray();
+ 	                     			values = updatedValues;
+ 	                     			System.out.println("Les Ports restants sont : ");
+ 	 	 					        for (int value : values) {
+ 	 	 					            System.out.println(value);}
+ 	                     			received2 = true;
+ 	                     			x2=1;
+ 	                         		    }
+ 	                     		}
+ 	                            		
+ 	                    			// Attente de la réception d'un datagramme token
+ 	                         			else{
+ 	                         				if(receivedtest.equals("NVToken")) {System.out.println("Nouveau Token Recu");}
+ 	                         				else { System.out.println("Token Recu depuis Client 01");}
+ 	                         				x2=0;
+ 	                         				received2 = true; // Marque le datagramme comme reçu
+ 	                         			}
+ 	                          } 
+ 	                         catch (SocketTimeoutException e) {
+ 	                        	 System.out.println("Timer ran out, reallocation random du token");
+ 	                        	// int nouvPort = reallocateToken();
+ 	                        	  message = "Token";
+ 	                        		RellocateToken(values,address);
+ 	                        		
+ 	                			 }
+ 	                         
+ 	                         }
+ 	                     }
  	                       if(x2==0) {
  	          	 		 System.out.println("Client 01 envoie nom du service a inter ");
  	          	 		 Sx = i.Sending(clientReferenceChain[iz]);
@@ -150,31 +182,46 @@ public class Cl1 extends Client{
 
  	               String received = new String(packet.getData(), 0, packet.getLength());
  	               System.out.println("Message reçu dans Client 01 : " + received);
- 	          	 Thread.sleep(3000);
+ 	          	 Thread.sleep(2000);
  	              
  	          	 // passer le token au prochain client
  	               DatagramSocket socket2 = new DatagramSocket();
+ 	               
  	               message = "Token";
  	               address = packet.getAddress(); // Utiliser l'adresse d'origine
- 	               port = 1122; // Utiliser le port d'origine
+ 	              
+ 	               if(iz==15) {
+ 	 	               //appel fonction pour supprimer le port 5511 de tous les autres clients
+ 	            	  Endofclient(values,address,5511);
+ 	            	  System.out.println("********MSG DE DELETE ENVOYE*********");
+ 	 	               }
+ 	               
+ 	              	               
+ 	               // LE MODULOOOOOOOOOOOO
+ 	            	   port1 = 1122; // Utiliser le port d'origine
  	             /*  if(nomService.equals("Service13")){Thread.sleep(10000);}
  	                   socket.send(packet); 
  	               */    
  	               
- 	               DatagramPacket packet2 = new DatagramPacket(message.getBytes(), message.length(), address, port);
+ 	               DatagramPacket packet2 = new DatagramPacket(message.getBytes(), message.length(), address, port1);
  	               socket2.send(packet2); // Envoi à l'adresse d'origine
  	               System.out.println("Message envoyé depuis Client 01 au Client 02");
 
  	               socket2.close();
  	                       			socket.close();
- 	                     }
- 	        	 	 }}
+ 	                   
+ 	               
+ 	                       }
+ 	        	 	 }
+ 	 			//fin parcours de la chaine de reference	 
+ 	 			}
         	 
         }
         catch(Exception e) 
     	{System.out.println("Exception : "+e.toString());}
 	
 }
+
 	
 	
 }

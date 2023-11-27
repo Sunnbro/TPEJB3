@@ -24,26 +24,50 @@ public class Client {
 	        values = updatedValues;
 	    }
 	
-		    
-	public static void RellocateToken(InetAddress address) {
+	  protected static void Endofclient(int[] arr,InetAddress address, int portsrc) {
+			try {
+			DatagramSocket socketR = new DatagramSocket();
+			String msgr = "Deleteport"+portsrc;
+			for (int i = 0; i < arr.length; i++) {
+				
+		           if (arr[i] != portsrc) {
+		        	   char thirdDigitChar = Integer.toString(arr[i]).charAt(2);// prend le port 5511, et extrait le 3eme chiffre
+		        	   // Envoyer le message "delete" à tous les clients sauf celui source
+		        	   int port = arr[i];
+		               DatagramPacket resetPacket = new DatagramPacket(msgr.getBytes(), msgr.length(), address, port);
+		               socketR.send(resetPacket);
+
+		               System.out.println("Message pour suppression du port "+portsrc+" envoyé au Client " + thirdDigitChar);
+		           //}
+		       }
+		}
+			socketR.close();
+			}
+			catch (Exception e) {
+			    System.out.println("Erreur lors de l'envoi du tokenDLT : " + e.getMessage());
+					}
+	} 
+	 
+	  
+	public static void RellocateToken(int[] valarr,InetAddress address) {
 		try{
 		
 		 Random random = new Random();
 	       
 
 	       // Génération d'un indice aléatoire pour sélectionner l'un des cinq entiers
-	       int randomIndex = random.nextInt(values.length);
+	       int randomIndex = random.nextInt(valarr.length);
 
 	       // Récupération de l'entier sélectionné aléatoirement
-	       int selectedInt = values[randomIndex];
+	       int selectedInt = valarr[randomIndex];
 	       
 	       DatagramSocket socketR = new DatagramSocket();
 	       String msgr = "Reset";
 	       
-	       for (int i = 0; i < values.length; i++) {
+	       for (int i = 0; i < valarr.length; i++) {
 	           //if (values[i] != selectedInt) {
 	               // Envoyer le message "Reset" à tous les clients sauf celui sélectionné
-	               int port = values[i];
+	               int port = valarr[i];
 	               DatagramPacket resetPacket = new DatagramPacket(msgr.getBytes(), msgr.length(), address, port);
 	               socketR.send(resetPacket);
 
@@ -96,7 +120,7 @@ public class Client {
 	       //byte[] resetBuffer = resetMessage.getBytes();
 	       
 	      
-	       
+	       socketR.close();
 		
 		}
 		catch (Exception e) {
