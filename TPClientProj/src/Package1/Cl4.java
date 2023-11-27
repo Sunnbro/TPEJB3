@@ -79,7 +79,7 @@ public class Cl4 extends Client{
                 
                         		// Attente de la réception d'un datagramme token
                            		if(receivedtest.equals("NVToken")) {System.out.println("Nouveau Token Recu");}
-                           		else { System.out.println("Token Recu depuis Client3");}
+                           		else { System.out.println("Token normal Recu");}
                     			
                     			received2 = true; // Marque le datagramme comme reçu
                      }
@@ -152,7 +152,7 @@ public class Cl4 extends Client{
 
                  String received = new String(packet.getData(), 0, packet.getLength());
                  System.out.println("Message reçu dans Client 04 : " + received);
-            	 Thread.sleep(2000);
+            	// Thread.sleep(2000);
                 
             	 // passer le token au prochain client
                  DatagramSocket socket2 = new DatagramSocket();
@@ -163,14 +163,17 @@ public class Cl4 extends Client{
              	  Endofclient(values,address,3344);
              	  System.out.println("********MSG DE DELETE ENVOYE*********");
   	               }
-                 int port = 4455; // Utiliser le port d'origine
+                 //int port = 4455; // Utiliser le port d'origine
                /*  if(nomService.equals("Service13")){Thread.sleep(10000);}
                      socket.send(packet); 
                  */    
-                 
-                 DatagramPacket packet2 = new DatagramPacket(message.getBytes(), message.length(), address, port);
-                 socket2.send(packet2); // Envoi à l'adresse d'origine
-                 System.out.println("Message envoyé depuis Client 4 au Client 5");
+                 int y1 = findPosition(values,3344);
+	                 int mod = (y1+1)%values.length;
+	                 int port = values[mod];
+	                char clientmod = Integer.toString(port).charAt(2);
+	               DatagramPacket packet2 = new DatagramPacket(message.getBytes(), message.length(), address, port);
+	               socket2.send(packet2); // Envoi à l'adresse d'origine
+	               System.out.println("Message envoyé depuis Client 04 au Client 0"+clientmod);
 
                  socket2.close();
                          			socket.close();

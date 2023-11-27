@@ -109,7 +109,7 @@ public class Cl1 extends Client{
  	                
  	                        		// Attente de la réception d'un datagramme token
  	                           		if(receivedtest.equals("NVToken")) {System.out.println("Nouveau Token Recu");}
- 	                           		else { System.out.println("Token Recu depuis Client2");}
+ 	                           		else { System.out.println("Token normal Recu");}
  	                    			
  	                    			received2 = true; // Marque le datagramme comme reçu
  	                     }
@@ -131,7 +131,7 @@ public class Cl1 extends Client{
  	                         	// String recumsg = new String(packet.getData(), 0, packet.getLength());
  	                         	String receivedtest = new String(packet.getData(), 0, packet.getLength());
  	                         			if(receivedtest.equals("Reset")){
- 	                         			System.out.println("Reset du timer du client 02");
+ 	                         			System.out.println("Reset du timer du client 01");
  	                         			received2 = true; // Marque le datagramme comme reçu
  	                             	}
  	                         			else         		if(receivedtest.contains("Deleteport")) {
@@ -152,7 +152,7 @@ public class Cl1 extends Client{
  	                    			// Attente de la réception d'un datagramme token
  	                         			else{
  	                         				if(receivedtest.equals("NVToken")) {System.out.println("Nouveau Token Recu");}
- 	                         				else { System.out.println("Token Recu depuis Client 01");}
+ 	                         				else { System.out.println("Token normal Recu");}
  	                         				x2=0;
  	                         				received2 = true; // Marque le datagramme comme reçu
  	                         			}
@@ -182,7 +182,7 @@ public class Cl1 extends Client{
 
  	               String received = new String(packet.getData(), 0, packet.getLength());
  	               System.out.println("Message reçu dans Client 01 : " + received);
- 	          	 Thread.sleep(2000);
+ 	          	// Thread.sleep(2000);
  	              
  	          	 // passer le token au prochain client
  	               DatagramSocket socket2 = new DatagramSocket();
@@ -198,14 +198,17 @@ public class Cl1 extends Client{
  	               
  	              	               
  	               // LE MODULOOOOOOOOOOOO
- 	            	   port1 = 1122; // Utiliser le port d'origine
+ 	            	//   port1 = 1122; // Utiliser le port d'origine
  	             /*  if(nomService.equals("Service13")){Thread.sleep(10000);}
  	                   socket.send(packet); 
  	               */    
- 	               
- 	               DatagramPacket packet2 = new DatagramPacket(message.getBytes(), message.length(), address, port1);
+ 	            	  int y1 = findPosition(values,5511);
+ 	                 int mod = (y1+1)%values.length;
+ 	                 int port = values[mod];
+ 	                char clientmod = Integer.toString(port).charAt(2);
+ 	               DatagramPacket packet2 = new DatagramPacket(message.getBytes(), message.length(), address, port);
  	               socket2.send(packet2); // Envoi à l'adresse d'origine
- 	               System.out.println("Message envoyé depuis Client 01 au Client 02");
+ 	               System.out.println("Message envoyé depuis Client 01 au Client 0"+clientmod);
 
  	               socket2.close();
  	                       			socket.close();

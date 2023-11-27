@@ -80,7 +80,7 @@ public class Cl5 extends Client{
                 
                         		// Attente de la réception d'un datagramme token
                            		if(receivedtest.equals("NVToken")) {System.out.println("Nouveau Token Recu");}
-                           		else { System.out.println("Token Recu depuis Client4");}
+                           		else { System.out.println("Token normal Recu");}
                     			
                     			received2 = true; // Marque le datagramme comme reçu
                      }
@@ -153,7 +153,7 @@ public class Cl5 extends Client{
 
                  String received = new String(packet.getData(), 0, packet.getLength());
                  System.out.println("Message reçu dans Client 5 : " + received);
-            	 Thread.sleep(2000);
+            	// Thread.sleep(2000);
                 
             	 // passer le token au prochain client
                  DatagramSocket socket2 = new DatagramSocket();
@@ -164,13 +164,14 @@ public class Cl5 extends Client{
              	  Endofclient(values,address,4455);
              	  System.out.println("********MSG DE DELETE ENVOYE*********");
   	               }
-                 int port = 5511; // Utiliser le port d'origine
-                
-                 
-                 DatagramPacket packet2 = new DatagramPacket(message.getBytes(), message.length(), address, port);
-                 socket2.send(packet2); // Envoi à l'adresse d'origine
-                // if(isPortAvailable(address, port)) {
-                 System.out.println("Message envoyé depuis Client 5 au Client 1");
+                 //int port = 5511; // Utiliser le port d'origine
+                 int y1 = findPosition(values,4455);
+	                int mod = (y1+1)%values.length;
+	                int port = values[mod];
+	                char clientmod = Integer.toString(port).charAt(2);
+	               DatagramPacket packet2 = new DatagramPacket(message.getBytes(), message.length(), address, port);
+	               socket2.send(packet2); // Envoi à l'adresse d'origine
+	               System.out.println("Message envoyé depuis Client 05 au Client 0"+clientmod);
                  //}
                  //else {System.out.println("Client 1 n'est pas disponible");}
 

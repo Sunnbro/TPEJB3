@@ -11,19 +11,19 @@ import java.util.Random;
 
 public class Client {
 	
-	protected static int[] values = {1122, 2233, 3344, 4455, 5511};
+	//protected static int[] values = {1122, 2233, 3344, 4455, 5511};
 	 //AU LIEU D'ENVOYER AU PROCHAIN EXPLICITEMENT, ET PUISQUE on SUPPRIME QUAND un est termine, EN ENVOIE AU NEXT
-	  public static int[] getValues() {
-	        return values;
-	    }
+	//  public static int[] getValues() {
+	  //      return values;
+	    //}
 	
-	  public static void removePort(int portToRemove) {
+	 /* public static void removePort(int portToRemove) {
 	        int[] updatedValues = Arrays.stream(values)
 	                                    .filter(port -> port != portToRemove)
 	                                    .toArray();
 	        values = updatedValues;
 	    }
-	
+	*/
 	  protected static void Endofclient(int[] arr,InetAddress address, int portsrc) {
 			try {
 			DatagramSocket socketR = new DatagramSocket();
@@ -48,6 +48,14 @@ public class Client {
 					}
 	} 
 	 
+	  public static int findPosition(int[] values, int number) {
+		    for (int i = 0; i < values.length; i++) {
+		        if (values[i] == number) {
+		            return i; 
+		            }
+		    }
+		    return -1; 
+		}
 	  
 	public static void RellocateToken(int[] valarr,InetAddress address) {
 		try{

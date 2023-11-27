@@ -81,7 +81,7 @@ public class Cl2 extends Client{
                 
                         		// Attente de la réception d'un datagramme token
                            		if(receivedtest.equals("NVToken")) {System.out.println("Nouveau Token Recu");}
-                           		else { System.out.println("Token Recu depuis Client2");}
+                           		else { System.out.println("Token normal Recu");}
                     			
                     			received2 = true; // Marque le datagramme comme reçu
                      }
@@ -124,7 +124,7 @@ public class Cl2 extends Client{
                     			// Attente de la réception d'un datagramme token
                          			else{
                          				if(receivedtest.equals("NVToken")) {System.out.println("Nouveau Token Recu");}
-                         				else { System.out.println("Token Recu depuis Client 01");}
+                         				else { System.out.println("Token normal Recu");}
                          				x2=0;
                          				received2 = true; // Marque le datagramme comme reçu
                          			}
@@ -154,7 +154,7 @@ public class Cl2 extends Client{
 
              String received = new String(packet.getData(), 0, packet.getLength());
              System.out.println("Message reçu dans Client 02 : " + received);
-        	 Thread.sleep(2000);
+        	// Thread.sleep(2000);
             
         	 // passer le token au prochain client
              DatagramSocket socket2 = new DatagramSocket();
@@ -165,16 +165,19 @@ public class Cl2 extends Client{
            	  Endofclient(values,address,1122);
            	  System.out.println("********MSG DE DELETE ENVOYE*********");
 	               }
-             int port = 2233; // Utiliser le port d'origine
-            
-             //FONCTIONPASRESETMAIS
-             DatagramPacket packet2 = new DatagramPacket(message.getBytes(), message.length(), address, port);
+             
+            // int port = 2233; // Utiliser le port d'origine
+             int y1 = findPosition(values,1122);
+              int mod = (y1+1)%values.length;
+              int port = values[mod];
+             char clientmod = Integer.toString(port).charAt(2);
+            DatagramPacket packet2 = new DatagramPacket(message.getBytes(), message.length(), address, port);
              if(!nomService.equals("Service12")){
             	 socket2.send(packet2); // Envoi à l'adresse d'origine
-                 	 
+                 	
  	 		 }
-             System.out.println("Message envoyé depuis Client 02 au Client 03");
-
+             System.out.println("Message envoyé depuis Client 02 au Client 0"+clientmod);
+             
              socket2.close();
                      			socket.close();
                      			
