@@ -1,10 +1,12 @@
 package Package1;
 
 import java.io.IOException;
+import java.net.BindException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.SocketAddress;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -47,6 +49,26 @@ public class Client {
 			    System.out.println("Erreur lors de l'envoi du tokenDLT : " + e.getMessage());
 					}
 	} 
+	  protected static int[] checkstatus(int[] arr) {
+		  boolean isAvailable2;
+	       for (int i = 0; i < arr.length; i++) {
+	           //if (values[i] != selectedInt) {
+	    	   int port1 = arr[i];
+	    	   isAvailable2 = isPortAvailable(port1);
+	    	   if(isAvailable2) {
+	    		   char thirdDigitChar = Integer.toString(port1).charAt(2);// prend le port 5511, et extrait le 3eme chiffre
+		        	
+	    		   System.out.println("?*************? PORT DELETED : "+port1+" QUI APPARTIENT AU CLIENT 0"+thirdDigitChar+"?*************? ");
+	    		   int[] updatedValues = Arrays.stream(arr)
+	    				   	.filter(port -> port != port1)
+                            .toArray();
+        			 arr = updatedValues;
+        			
+	    	   }
+	          
+		
+	       }
+	       return arr;}
 	 
 	  public static int findPosition(int[] values, int number) {
 		    for (int i = 0; i < values.length; i++) {
@@ -56,31 +78,59 @@ public class Client {
 		    }
 		    return -1; 
 		}
-	  
+	  public static boolean isPortAvailable(int port) {
+	        try (DatagramSocket ignored = new DatagramSocket(port)) {
+	            return true; // Le port est disponible
+	        } catch (BindException e) {
+	            return false; // Le port est déjà utilisé
+	        } catch (Exception e) {
+	            return false; // Une autre erreur s'est produite
+	        }
+	    }
 	public static void RellocateToken(int[] valarr,InetAddress address) {
 		try{
 		
-		 Random random = new Random();
-	       
+		   Random random = new Random();
+	       int ntport = 0;
+	       boolean foundAvailablePort = false;
 
-	       // Génération d'un indice aléatoire pour sélectionner l'un des cinq entiers
-	       int randomIndex = random.nextInt(valarr.length);
+	       while (!foundAvailablePort) {
+	    	// Génération d'un indice aléatoire pour sélectionner l'un des cinq entiers
+		       int randomIndex = random.nextInt(valarr.length);
 
-	       // Récupération de l'entier sélectionné aléatoirement
-	       int selectedInt = valarr[randomIndex];
+		       // Récupération de l'entier sélectionné aléatoirement
+		       int selectedInt = valarr[randomIndex];
+		       
+	           if (!isPortAvailable(selectedInt)) {
+	               ntport=selectedInt;
+	             //  System.out.println(ntport+"???????????????????????????????");
+	               foundAvailablePort = true; // Met fin à la boucle
+	           }
+	       }
 	       
 	       DatagramSocket socketR = new DatagramSocket();
 	       String msgr = "Reset";
-	       
+	       boolean isAvailable2;
 	       for (int i = 0; i < valarr.length; i++) {
 	           //if (values[i] != selectedInt) {
+	    	   int port = valarr[i];
+	    	   isAvailable2 = isPortAvailable(port);
+	    	   char thirdDigitChar = Integer.toString(valarr[i]).charAt(2);// prend le port 5511, et extrait le 3eme chiffre
+	        	  
+	          // if (isAvailable2) {
 	               // Envoyer le message "Reset" à tous les clients sauf celui sélectionné
-	               int port = valarr[i];
-	               DatagramPacket resetPacket = new DatagramPacket(msgr.getBytes(), msgr.length(), address, port);
+	               
+	              try { DatagramPacket resetPacket = new DatagramPacket(msgr.getBytes(), msgr.length(), address, port);
 	               socketR.send(resetPacket);
 
-	               System.out.println("Message de reset envoyé au Client " + (i + 1));
+	               System.out.println("Message de reset envoyé au Client 0" + thirdDigitChar);
+	              }
+	              catch(Exception ignored) {
+	                    // Ignorer l'envoi du paquet si le port n'est pas disponible
+	                }
+	              
 	           //}
+	          
 	       }
 	       
 	       String msg = "NVToken";
@@ -89,8 +139,11 @@ public class Client {
 	    	DatagramPacket packet1 = new DatagramPacket(msg.getBytes(), msg.length(), address, selectedInt);
 			socketR.send(packet1); // Envoi du token à l'adresse d'origine
 	    	*/
+	      
 	       
-	       switch (selectedInt) {
+	      // System.out.println(ntport);
+	    	   
+	       switch (ntport) {
 	       		
 	       	case 5511:		    
 		    	System.out.println("Nouveau token crée et envoyé au Client 01.");
@@ -123,7 +176,8 @@ public class Client {
 			    	break;
 	       // Affichage de l'entier sélectionné
 	       }
-	      
+		
+	    	   
 	      // String resetMessage = "Reset";
 	       //byte[] resetBuffer = resetMessage.getBytes();
 	       

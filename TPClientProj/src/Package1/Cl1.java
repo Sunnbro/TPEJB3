@@ -182,7 +182,7 @@ public class Cl1 extends Client{
 
  	               String received = new String(packet.getData(), 0, packet.getLength());
  	               System.out.println("Message reçu dans Client 01 : " + received);
- 	          	// Thread.sleep(2000);
+ 	          	Thread.sleep(2000);
  	              
  	          	 // passer le token au prochain client
  	               DatagramSocket socket2 = new DatagramSocket();
@@ -202,6 +202,8 @@ public class Cl1 extends Client{
  	             /*  if(nomService.equals("Service13")){Thread.sleep(10000);}
  	                   socket.send(packet); 
  	               */    
+ 	              int[] p= values;
+ 	             values=checkstatus(p);
  	            	  int y1 = findPosition(values,5511);
  	                 int mod = (y1+1)%values.length;
  	                 int port = values[mod];

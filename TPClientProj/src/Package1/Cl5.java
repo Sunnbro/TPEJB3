@@ -153,7 +153,7 @@ public class Cl5 extends Client{
 
                  String received = new String(packet.getData(), 0, packet.getLength());
                  System.out.println("Message reçu dans Client 5 : " + received);
-            	// Thread.sleep(2000);
+            	Thread.sleep(2000);
                 
             	 // passer le token au prochain client
                  DatagramSocket socket2 = new DatagramSocket();
@@ -165,6 +165,8 @@ public class Cl5 extends Client{
              	  System.out.println("********MSG DE DELETE ENVOYE*********");
   	               }
                  //int port = 5511; // Utiliser le port d'origine
+                 int[] p= values;
+                 values=checkstatus(p);
                  int y1 = findPosition(values,4455);
 	                int mod = (y1+1)%values.length;
 	                int port = values[mod];
