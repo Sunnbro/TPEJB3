@@ -1,0 +1,28 @@
+Nom:Belharrat
+Prenom:Yanis Zidane
+Section:M2 IL
+Groupe: 04
+Matricule: 191931085131
+
+Le projet contient 2 dossiers, 
+
+==TPEJB3 qui contient le servercentral et doit etre run on server. 
+-Il contient un seule package:
+-packi qui contient la classe servercentral, son interface, TBservice et TBserver
+
+==TPClientProj qui contient 2 packs:
+-Package1 contient les clients de 1..6
+-packinter contient le classe Inter, son interface et les server de 1..5
+
+Ordre d'execution: 
+1-Servercentral(run on server)
+->server1->server2->server3->server4->server5(peu importe pour les servers)
+->inter
+->Cl2->Cl3->Cl4->Cl5->Cl6->Cl1
+
+il est important que cl1 commence en dernier car c'est lui qui envoi la premiere demande(service) a inter, les autres attendent.
+
+il ya une condition a la ligne 178 dans Cl2 pour ne pas envoyer le token lors du service12, ceci cree une simulation d'echec 
+d'envoi du token au client 3, ce qui cause la rellocation dun nouveau token et le reset des timers de tous les clients.
+
+End.
