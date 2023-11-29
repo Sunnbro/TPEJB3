@@ -7,7 +7,8 @@ import java.util.Properties;
 import javax.naming.InitialContext;
 import packi.IServeurCentral;
 import packi.ServeurCentral;
- 
+//ORDRE D'EXECUTION: Servercentral(run on server)->server1->server2->server3->server4->server5(peu importe pour les servers)->inter->Cl2->Cl3->Cl4->Cl5->Cl6->Cl1
+
 public class Server1 {
 	public static void main(String[] args) {
 		Server1 inst = new Server1();
@@ -15,6 +16,7 @@ public class Server1 {
 	    	  	Properties props = new Properties();
 				props.put("java.naming.factory.url.pkgs","org.jboss.ejb.client.naming");
 				InitialContext context = new InitialContext(props);
+				//juste pour affichage
 				String Appname = "";
 				String moduleName ="TPEJB3";
 				String distinctName = "";
@@ -23,15 +25,19 @@ public class Server1 {
 				 
 				String name = "ejb:"+ Appname + "/" + moduleName +"/"+ distinctName +"/"+ BeanName +"/"+ InterfaceName+"///";
 				System.out.println(name);
+				//juste pour affichage
+				
+				//se connecter au server central 
 				IServeurCentral i = (IServeurCentral) context.lookup("ejb:/TPEJB3/ServeurCentral!packi.IServeurCentral");
-	        	i.addservices();
+	        	//ajouter les services par RMI
+				i.addservices();
 	      
 			//connexion a inter: accepted		
 			 ServerSocket s2 = new ServerSocket(2001);
 			 while(true) {
 				
 			 Socket conn = s2.accept();
-			 // prendre les infos 
+			 // prendre les infos necessaires
 			 // nom du server
 			 String Sx = inst.getClass().getSimpleName();
 			 // Adresse IP du client
@@ -39,20 +45,20 @@ public class Server1 {
 			 // Numero du port
              int clientPort = conn.getPort();	
              
-             //envoyer nom server a central pour enregistrement.
-           //APPELER AVEC RMI	
-            i.Addserver("1",clientAddress, Sx, clientPort);
+             //envoyer nom server a servercentral pour enregistrement.
+             //APPELER AVEC RMI	
+             i.Addserver("1",clientAddress, Sx, clientPort);
              
-             
-			 	ObjectInputStream in1 = new ObjectInputStream(conn.getInputStream());//pour recevoir de inter
+             //Recevoir de inter avec TCP le nom du service
+			 	ObjectInputStream in1 = new ObjectInputStream(conn.getInputStream());
 			 	String S = (String)in1.readObject();
 				System.out.println("message recu de inter: "+S);
 				
 	
-				
-	   		      String sq = i.listServices(S);
+				//demander le number,name,description de ce service depuis la bdd avec RMI
+	   		    String sq = i.listServices(S);
 				System.out.println("result recu de Server central: "+sq);
-	
+				//renvoyer a Inter
 				ObjectOutputStream out1 = new ObjectOutputStream(conn.getOutputStream());// pour renvoyer a inter le resultat
 				 out1.writeObject(sq);
 	             out1.flush();
@@ -60,7 +66,7 @@ public class Server1 {
 	             out1.close();
 	             in1.close(); 
 				conn.close(); 
-				
+				// si FIN on sort
 				if("FIN".equals(S)) break;
 		            } 
 		            s2.close();
