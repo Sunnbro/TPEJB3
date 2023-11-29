@@ -1,26 +1,12 @@
 package packi;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.lang.annotation.Annotation;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+
 import java.sql.SQLException;
-import java.sql.Statement;
-
-
-import jakarta.annotation.PostConstruct;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.NoResultException;
-import jakarta.persistence.Persistence;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
-@SuppressWarnings("unused")
+
 
 @Stateless
 public class ServeurCentral implements IServeurCentral {//implements IServeurCentral{
@@ -30,15 +16,6 @@ public class ServeurCentral implements IServeurCentral {//implements IServeurCen
 	
 	@PersistenceContext
 	EntityManager EM;
-	
-	
-	
-	
-	
-//charger driver MySql
-	
-	
-	public int add(int a,int b) throws Exception{ return a+b;}
 	
 	
 	public void addservices() {
@@ -60,19 +37,7 @@ public class ServeurCentral implements IServeurCentral {//implements IServeurCen
 		}
 	}
 
-	@Override
-	public Class[] value() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Class<? extends Annotation> annotationType() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	
+		
 	    final String url = "jdbc:mysql://localhost:3306/dbtest";
 	    
 	    
@@ -102,13 +67,7 @@ public class ServeurCentral implements IServeurCentral {//implements IServeurCen
 
 
 
-	  public static void main(String[] args) {
-		    try {ServeurCentral sr = new ServeurCentral();
-		    //sr.loadDriver();
-		    
-		    }
-		    catch (Exception e) {e.printStackTrace();}
-		}
+	
 
 
 }
