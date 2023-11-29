@@ -1,31 +1,14 @@
 package Package1;
 
-import java.io.IOException;
 import java.net.BindException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.net.Socket;
-import java.net.SocketAddress;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
 
 public class Client {
 	
-	//protected static int[] values = {1122, 2233, 3344, 4455, 5511};
-	 //AU LIEU D'ENVOYER AU PROCHAIN EXPLICITEMENT, ET PUISQUE on SUPPRIME QUAND un est termine, EN ENVOIE AU NEXT
-	//  public static int[] getValues() {
-	  //      return values;
-	    //}
-	
-	 /* public static void removePort(int portToRemove) {
-	        int[] updatedValues = Arrays.stream(values)
-	                                    .filter(port -> port != portToRemove)
-	                                    .toArray();
-	        values = updatedValues;
-	    }
-	*/
 	  protected static void Endofclient(int[] arr,InetAddress address, int portsrc) {
 			try {
 			DatagramSocket socketR = new DatagramSocket();
@@ -134,15 +117,15 @@ public class Client {
 	       }
 	       
 	       String msg = "NVToken";
-	       
-	      /* System.out.println("Nouveau token crée et envoyé au Client "+randomIndex+".");
-	    	DatagramPacket packet1 = new DatagramPacket(msg.getBytes(), msg.length(), address, selectedInt);
+	       char thirdDigitChar = Integer.toString(ntport).charAt(2);// prend le port 5511, et extrait le 3eme chiffre
+       	   System.out.println("Nouveau token crée et envoyé au Client 0"+thirdDigitChar+".");
+	    	DatagramPacket packet1 = new DatagramPacket(msg.getBytes(), msg.length(), address, ntport);
 			socketR.send(packet1); // Envoi du token à l'adresse d'origine
-	    	*/
+	    	
 	      
 	       
 	      // System.out.println(ntport);
-	    	   
+	    /*	   
 	       switch (ntport) {
 	       		
 	       	case 5511:		    
@@ -175,7 +158,7 @@ public class Client {
 					socketR.send(packet5); // Envoi du token à l'adresse d'origine
 			    	break;
 	       // Affichage de l'entier sélectionné
-	       }
+	       }*/
 		
 	    	   
 	      // String resetMessage = "Reset";

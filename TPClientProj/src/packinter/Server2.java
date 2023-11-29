@@ -3,19 +3,11 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Properties;
-
 import javax.naming.InitialContext;
-
 import packi.IServeurCentral;
 import packi.ServeurCentral;
-@SuppressWarnings("unused")
+
  
 public class Server2 {
 	public static void main(String[] args) {
@@ -29,12 +21,10 @@ public class Server2 {
 				 String distinctName = "";
 			 	 String BeanName = ServeurCentral.class.getSimpleName();
 			 	 String InterfaceName = IServeurCentral.class.getName();
-				 
 				 String name = "ejb:"+ Appname + "/" + moduleName +"/"+ distinctName +"/"+ BeanName +"/"+ InterfaceName+"///";
-				System.out.println(name);
-				// Iinter i = (Iinter) context.lookup("ejb:/TPEJB3/inter!packi.Iinter");
-	        	 IServeurCentral i = (IServeurCentral) context.lookup("ejb:/TPEJB3/ServeurCentral!packi.IServeurCentral");
-	        	i.addservices();
+				 System.out.println(name);
+				 IServeurCentral i = (IServeurCentral) context.lookup("ejb:/TPEJB3/ServeurCentral!packi.IServeurCentral");
+				 i.addservices();
 	      
 			//connexion a inter: accepted		
 			 ServerSocket s2 = new ServerSocket(2002);
@@ -57,12 +47,8 @@ public class Server2 {
 			 	ObjectInputStream in1 = new ObjectInputStream(conn.getInputStream());//pour recevoir de inter
 			 	String S = (String)in1.readObject();
 				System.out.println("message recu de inter: "+S);
-				
-	
-				
-	   		      String sq = i.listServices(S);
+				String sq = i.listServices(S);
 				System.out.println("result recu de Server central: "+sq);
-	
 				ObjectOutputStream out1 = new ObjectOutputStream(conn.getOutputStream());// pour renvoyer a inter le resultat
 				 out1.writeObject(sq);
 	             out1.flush();

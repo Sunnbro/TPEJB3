@@ -3,37 +3,27 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Properties;
-
 import javax.naming.InitialContext;
-
 import packi.IServeurCentral;
 import packi.ServeurCentral;
-@SuppressWarnings("unused")
  
 public class Server1 {
 	public static void main(String[] args) {
 		Server1 inst = new Server1();
 	      try {
-	    	  Properties props = new Properties();
-				 props.put("java.naming.factory.url.pkgs","org.jboss.ejb.client.naming");
-				 InitialContext context = new InitialContext(props);
-				 String Appname = "";
-				 String moduleName ="TPEJB3";
-				 String distinctName = "";
-			 	 String BeanName = ServeurCentral.class.getSimpleName();
-			 	 String InterfaceName = IServeurCentral.class.getName();
+	    	  	Properties props = new Properties();
+				props.put("java.naming.factory.url.pkgs","org.jboss.ejb.client.naming");
+				InitialContext context = new InitialContext(props);
+				String Appname = "";
+				String moduleName ="TPEJB3";
+				String distinctName = "";
+			 	String BeanName = ServeurCentral.class.getSimpleName();
+			 	String InterfaceName = IServeurCentral.class.getName();
 				 
-				 String name = "ejb:"+ Appname + "/" + moduleName +"/"+ distinctName +"/"+ BeanName +"/"+ InterfaceName+"///";
+				String name = "ejb:"+ Appname + "/" + moduleName +"/"+ distinctName +"/"+ BeanName +"/"+ InterfaceName+"///";
 				System.out.println(name);
-				// Iinter i = (Iinter) context.lookup("ejb:/TPEJB3/inter!packi.Iinter");
-	        	 IServeurCentral i = (IServeurCentral) context.lookup("ejb:/TPEJB3/ServeurCentral!packi.IServeurCentral");
+				IServeurCentral i = (IServeurCentral) context.lookup("ejb:/TPEJB3/ServeurCentral!packi.IServeurCentral");
 	        	i.addservices();
 	      
 			//connexion a inter: accepted		
